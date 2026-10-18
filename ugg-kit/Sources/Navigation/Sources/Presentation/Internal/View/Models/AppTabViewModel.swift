@@ -66,7 +66,11 @@ final class AppTabViewModel: ObservableObject {
         switch onEnum(of: event) {
             case .onNavigate(let event):
                 // Most tab screens are pushed by the tabs themselves; these few by KMM.
-                if event.route is ProfileFlow.Name { open(.name) }
+                switch event.route {
+                    case is ProfileFlow.Name: open(.name)
+                    case let form as ProfileFlow.AddressForm: open(.addressForm(id: form.addressId))
+                    default: break
+                }
             case .onBack:
                 // Only a screen that closes through KMM is popped: a `back()` from elsewhere (the
                 // name step after sign-in, the auth sheet) must not take the open screen away.

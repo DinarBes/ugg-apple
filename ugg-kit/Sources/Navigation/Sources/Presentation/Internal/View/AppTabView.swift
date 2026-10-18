@@ -69,8 +69,9 @@ private extension View {
                 case .care: ComingSoonView(title: "Уход за уггами")
                 case .settings: SettingsScreen()
                 case .name: NameScreen()
-                case .size: ComingSoonView(title: "Мой размер")
-                case .addresses: ComingSoonView(title: "Адреса доставки")
+                case .size: SizeScreen()
+                case .addresses: AddressesScreen()
+                case .addressForm(let id): AddressFormScreen(addressId: id)
                 case .cart:
                     CartScreen(
                         onChooseModel: { appTabVM.popAndSelect(.model) },

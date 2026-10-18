@@ -22,5 +22,17 @@ public extension Container {
         register(NameViewModel.self) { resolver in
             NameViewModel(app: resolver.resolve(TemplateApp.self)!)
         }
+
+        register(SizeViewModel.self) { resolver in
+            SizeViewModel(app: resolver.resolve(TemplateApp.self)!)
+        }
+
+        register(AddressesViewModel.self) { resolver in
+            AddressesViewModel(app: resolver.resolve(TemplateApp.self)!)
+        }
+
+        register(AddressFormViewModel.self) { resolver in
+            AddressFormViewModel(app: resolver.resolve(TemplateApp.self)!)
+        }
     }
 }

@@ -24,11 +24,13 @@ enum AppDestination: Hashable, Sendable {
     case name
     case size
     case addresses
+    /// `nil` — a new address.
+    case addressForm(id: String?)
 
     /// Screens KMM closes with `back()` once saved; other pushed screens close with the system back.
     var closesThroughKmm: Bool {
         switch self {
-            case .name, .size: true
+            case .name, .size, .addressForm: true
             default: false
         }
     }
