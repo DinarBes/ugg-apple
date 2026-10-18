@@ -12,24 +12,12 @@ import UggShared
 final class OtpViewModel: ObservableObject {
     @Published private(set) var state = OtpState()
 
-    /// The one field the screen edits — see `InitiateViewModel.phone`.
-    var otp: Binding<String> {
+    /// The code field. KMM keeps digits only and submits by itself on the sixth one, which is why
+    /// the binding needs the session.
+    func otp(sessionId: String) -> Binding<String> {
         Binding(
             get: { self.state.otp },
-            set: { [self] otp in
-                let dto = viewModel.state.value
-
-                viewModel.onStateChange(
-                    new: dto.doCopy(
-                        otp: otp,
-                        isLoading: dto.isLoading,
-                        isResending: dto.isResending,
-                        sessionId: dto.sessionId,
-                        resendCount: dto.resendCount,
-                        error: dto.error
-                    )
-                )
-            }
+            set: { self.viewModel.onOtpChange(otp: $0, sessionId: sessionId) }
         )
     }
 
@@ -45,7 +33,15 @@ final class OtpViewModel: ObservableObject {
             .assign(to: &$state)
     }
 
+    func reset() {
+        viewModel.reset()
+    }
+
     func onSubmit(sessionId: String) {
         viewModel.onSubmit(sessionId: sessionId)
+    }
+
+    func onResend(phone: String) {
+        viewModel.resend(phone: phone)
     }
 }

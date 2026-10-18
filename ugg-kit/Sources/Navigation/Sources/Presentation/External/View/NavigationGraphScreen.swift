@@ -10,6 +10,7 @@ import SwiftUI
 import UggKitCore
 import UggKitAuth
 import UggKitSplash
+import UggKitOnboarding
 
 public struct NavigationGraphScreen: View {
     @InjectedStateObject var navigationGraphVM: NavigationGraphViewModel
@@ -25,15 +26,16 @@ public struct NavigationGraphScreen: View {
             case .splash:
                 SplashScreen(error: splashVM.error, onRetry: splashVM.onRetry)
             case .onboarding:
-                // TODO: OnboardingScreen (next step of the iOS port).
-                Text("Онбординг")
+                OnboardingScreen(
+                    onStart: { navigationGraphVM.openApp() },
+                    onLogin: { navigationGraphVM.openSignIn() }
+                )
             case .auth:
-                AuthNavigationStack()
+                AuthNavigationStack(onClose: { navigationGraphVM.openApp() })
             case .launch:
                 AppTabView()
             case .registration:
-                // TODO: RegistrationScreen (next step of the iOS port).
-                Text("Регистрация")
+                RegistrationScreen()
         }
     }
 }

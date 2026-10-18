@@ -9,6 +9,7 @@ import Swinject
 import UggKitCore
 import UggKitAuth
 import UggKitSplash
+import UggKitOnboarding
 import UggKitNavigation
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
@@ -26,6 +27,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         di.registerAppModule()
         di.registerAuthModule()
         di.registerSplashModule()
+        di.registerOnboardingModule()
         di.registerNavigationModule()
 
         self.di = di

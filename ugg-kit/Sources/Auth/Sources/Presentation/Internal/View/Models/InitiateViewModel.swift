@@ -6,23 +6,18 @@
 import Combine
 import SwiftUI
 
+import UggKitCore
 import UggShared
 
 @MainActor
 final class InitiateViewModel: ObservableObject {
     @Published private(set) var state = InitiateState()
 
-    /// The one field the screen edits.
-    var phone: Binding<String> {
+    /// The digits after «+7», shown grouped («900 123-45-67»); KMM drops everything but digits.
+    var nationalNumber: Binding<String> {
         Binding(
-            get: { self.state.phone },
-            set: { [self] phone in
-                // The KMM view model has no per-field intent yet, so the whole state goes back and
-                // the untouched fields are read off the live Kotlin state — see `clean-data-layer`.
-                let dto = viewModel.state.value
-
-                viewModel.onStateChange(new: dto.doCopy(phone: phone, isLoading: dto.isLoading, error: dto.error))
-            }
+            get: { UggFormat.nationalNumber(self.state.nationalNumber) },
+            set: { self.viewModel.onNationalNumberChange(digits: $0) }
         )
     }
 
@@ -36,6 +31,11 @@ final class InitiateViewModel: ObservableObject {
             .catch { _ in Empty() }
             .map { InitiateState(from: $0) }
             .assign(to: &$state)
+    }
+
+    /// A clean phone step on every visit: the KMM view model outlives the screen.
+    func reset() {
+        viewModel.reset()
     }
 
     func onSubmit() {

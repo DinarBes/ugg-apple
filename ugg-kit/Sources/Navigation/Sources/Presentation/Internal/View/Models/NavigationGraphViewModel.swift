@@ -16,9 +16,12 @@ final class NavigationGraphViewModel: ObservableObject {
     /// navigates there — nothing is resolved here.
     @Published var root: RootDestination = .splash
 
+    private let navigationContext: NavigationContext
     private var cancellable: Set<AnyCancellable> = []
 
     init(app: TemplateApp) {
+        navigationContext = app.navigationContext
+
         app.navigationContext.events.toPublisher()
             .receive(on: RunLoop.main)
             .catch { _ in Combine.Empty<NavigationEvent, Never>() }
@@ -33,8 +36,19 @@ final class NavigationGraphViewModel: ObservableObject {
             case .onNavigate(let event):
                 navigate(event: event)
             case .onBack:
-                break
+                // The name step closes with a KMM `back()`; underneath it is the app.
+                if root == .registration { root = .launch }
         }
+    }
+
+    /// Into the app — from the onboarding and when the sign-in is closed. Goes through KMM, as on
+    /// Android, so every listener sees the same route.
+    func openApp() {
+        navigationContext.tryNavigate(route: SplashFlow.Launch.shared, block: { _ in })
+    }
+
+    func openSignIn() {
+        navigationContext.tryNavigate(route: SplashFlow.Auth.shared, block: { _ in })
     }
 
     private func navigate(event: NavigationEvent.OnNavigate) {

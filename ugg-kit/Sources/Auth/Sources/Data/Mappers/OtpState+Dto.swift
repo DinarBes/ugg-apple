@@ -11,6 +11,8 @@ extension OtpState {
         self.init(
             otp: dto.otp,
             isLoading: dto.isLoading,
+            isResending: dto.isResending,
+            resendCount: Int(dto.resendCount),
             error: dto.error?.message
         )
     }

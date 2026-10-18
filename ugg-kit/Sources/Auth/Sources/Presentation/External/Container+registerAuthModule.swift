@@ -21,6 +21,10 @@ public extension Container {
             OtpViewModel(app: resolver.resolve(TemplateApp.self)!)
         }
 
+        register(RegistrationViewModel.self) { resolver in
+            RegistrationViewModel(app: resolver.resolve(TemplateApp.self)!)
+        }
+
         register(NavigationViewModel.self) { resolver in
             NavigationViewModel(app: resolver.resolve(TemplateApp.self)!)
         }

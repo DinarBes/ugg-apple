@@ -5,6 +5,8 @@
 
 import SwiftUI
 
+import UggKitCore
+
 public struct SplashScreen: View {
     private let error: String?
     private let onRetry: () -> Void
@@ -17,17 +19,33 @@ public struct SplashScreen: View {
     }
 
     public var body: some View {
-        VStack(spacing: 12) {
-            if let error {
-                Text(error)
-                    .foregroundStyle(.red)
-                    .multilineTextAlignment(.center)
+        VStack(spacing: UggSpacing.xl) {
+            Spacer()
 
-                Button("Retry", action: onRetry)
+            UggWordmark()
+
+            if let error {
+                VStack(spacing: UggSpacing.m) {
+                    Text(error)
+                        .uggFont(.body)
+                        .foregroundStyle(UggColors.contentSecondary)
+                        .multilineTextAlignment(.center)
+
+                    UggButton("Повторить", variant: .secondary, showsArrow: false, action: onRetry)
+                        .fixedSize()
+                }
+                .padding(.horizontal, UggSpacing.xl)
             } else {
-                ProgressView()
+                ProgressView().tint(UggColors.accent)
             }
+
+            Spacer()
         }
-        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(UggColors.background.ignoresSafeArea())
     }
+}
+
+#Preview {
+    SplashScreen(error: "Нет соединения с интернетом")
 }

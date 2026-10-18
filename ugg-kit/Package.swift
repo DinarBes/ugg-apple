@@ -16,6 +16,7 @@ let package = Package(
                 "UggKitCore",
                 "UggKitAuth",
                 "UggKitSplash",
+                "UggKitOnboarding",
                 "UggKitNavigation",
             ]
         ),
@@ -27,6 +28,7 @@ let package = Package(
         .core(),
         .auth(),
         .splash(),
+        .onboarding(),
         .navigation(),
         .uggKitDebugShared()
     ]
@@ -86,6 +88,19 @@ extension Target {
         )
     }
 
+    static func onboarding() -> Target {
+        .target(
+            name: "UggKitOnboarding",
+            dependencies: [
+                "UggShared",
+                "UggKitCore",
+
+                .product(name: "Swinject", package: "Swinject")
+            ],
+            path: "./Sources/Onboarding"
+        )
+    }
+
     static func navigation() -> Target {
         .target(
             name: "UggKitNavigation",
@@ -94,6 +109,7 @@ extension Target {
                 "UggKitCore",
                 "UggKitAuth",
                 "UggKitSplash",
+                "UggKitOnboarding",
 
                 .product(name: "Swinject", package: "Swinject")
             ],
