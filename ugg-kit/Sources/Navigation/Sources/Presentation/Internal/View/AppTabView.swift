@@ -11,6 +11,8 @@ import UggKitProduct
 import UggKitCart
 import UggKitStores
 import UggKitProfile
+import UggKitCare
+import UggKitStory
 
 /// The app shell: the system tab bar, a `NavigationStack` per tab.
 struct AppTabView: View {
@@ -65,8 +67,8 @@ private extension View {
     func appDestinations(_ appTabVM: AppTabViewModel) -> some View {
         navigationDestination(for: AppDestination.self) { destination in
             switch destination {
-                case .story: ComingSoonView(title: "История")
-                case .care: ComingSoonView(title: "Уход за уггами")
+                case .story: StoryScreen(onChooseModel: { appTabVM.popAndSelect(.model) })
+                case .care: CareScreen()
                 case .settings: SettingsScreen()
                 case .name: NameScreen()
                 case .size: SizeScreen()
@@ -80,23 +82,5 @@ private extension View {
                     )
             }
         }
-    }
-}
-
-/// Stand-in for a screen of the next steps of the iOS port.
-private struct ComingSoonView: View {
-    let title: String
-
-    var body: some View {
-        VStack(spacing: UggSpacing.s) {
-            Text(title).uggFont(.displayL).foregroundStyle(UggColors.content)
-            Text("Экран скоро появится в iOS-версии")
-                .uggFont(.body)
-                .foregroundStyle(UggColors.contentSecondary)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(UggColors.background.ignoresSafeArea())
-        .navigationTitle(title)
-        .navigationBarTitleDisplayMode(.inline)
     }
 }
