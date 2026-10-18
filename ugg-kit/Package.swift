@@ -21,6 +21,7 @@ let package = Package(
                 "UggKitProduct",
                 "UggKitCart",
                 "UggKitStores",
+                "UggKitProfile",
                 "UggKitNavigation",
             ]
         ),
@@ -37,6 +38,7 @@ let package = Package(
         .product(),
         .cart(),
         .stores(),
+        .profile(),
         .navigation(),
         .uggKitDebugShared()
     ]
@@ -161,6 +163,19 @@ extension Target {
         )
     }
 
+    static func profile() -> Target {
+        .target(
+            name: "UggKitProfile",
+            dependencies: [
+                "UggShared",
+                "UggKitCore",
+
+                .product(name: "Swinject", package: "Swinject")
+            ],
+            path: "./Sources/Profile"
+        )
+    }
+
     static func navigation() -> Target {
         .target(
             name: "UggKitNavigation",
@@ -174,6 +189,7 @@ extension Target {
                 "UggKitProduct",
                 "UggKitCart",
                 "UggKitStores",
+                "UggKitProfile",
 
                 .product(name: "Swinject", package: "Swinject")
             ],

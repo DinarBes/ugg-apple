@@ -20,4 +20,16 @@ enum AppDestination: Hashable, Sendable {
     case story
     case care
     case cart
+    case settings
+    case name
+    case size
+    case addresses
+
+    /// Screens KMM closes with `back()` once saved; other pushed screens close with the system back.
+    var closesThroughKmm: Bool {
+        switch self {
+            case .name, .size: true
+            default: false
+        }
+    }
 }

@@ -10,6 +10,7 @@ import UggKitHome
 import UggKitProduct
 import UggKitCart
 import UggKitStores
+import UggKitProfile
 
 /// The app shell: the system tab bar, a `NavigationStack` per tab.
 struct AppTabView: View {
@@ -43,7 +44,16 @@ struct AppTabView: View {
             .tabItem { Label("Точки", systemImage: UggIcon.pin.rawValue) }
 
             NavigationStack(path: $appTabVM.profilePath) {
-                ComingSoonView(title: "Профиль").appDestinations(appTabVM)
+                ProfileScreen(
+                    onSignIn: { appTabVM.signIn() },
+                    onOpenSettings: { appTabVM.open(.settings) },
+                    onOpenSize: { appTabVM.open(.size) },
+                    // TODO: the orders list; the active order card is on the profile for now.
+                    onOpenOrders: { },
+                    onOpenAddresses: { appTabVM.open(.addresses) },
+                    onOpenCare: { appTabVM.open(.care) }
+                )
+                .appDestinations(appTabVM)
             }
             .tag(AppTab.profile)
             .tabItem { Label("Профиль", systemImage: UggIcon.user.rawValue) }
@@ -57,6 +67,10 @@ private extension View {
             switch destination {
                 case .story: ComingSoonView(title: "История")
                 case .care: ComingSoonView(title: "Уход за уггами")
+                case .settings: SettingsScreen()
+                case .name: NameScreen()
+                case .size: ComingSoonView(title: "Мой размер")
+                case .addresses: ComingSoonView(title: "Адреса доставки")
                 case .cart:
                     CartScreen(
                         onChooseModel: { appTabVM.popAndSelect(.model) },

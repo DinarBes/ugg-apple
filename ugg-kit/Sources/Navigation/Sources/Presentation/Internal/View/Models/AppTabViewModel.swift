@@ -64,12 +64,26 @@ final class AppTabViewModel: ObservableObject {
 
     private func handle(event: NavigationEvent) {
         switch onEnum(of: event) {
-            case .onNavigate:
-                // Routes owned by the tabs (cart, story, care…) arrive here as the screens move
-                // onto KMM navigation; for now the tabs push them directly.
-                break
+            case .onNavigate(let event):
+                // Most tab screens are pushed by the tabs themselves; these few by KMM.
+                if event.route is ProfileFlow.Name { open(.name) }
             case .onBack:
-                break
+                // Only a screen that closes through KMM is popped: a `back()` from elsewhere (the
+                // name step after sign-in, the auth sheet) must not take the open screen away.
+                popKmmScreen()
+        }
+    }
+
+    private func popKmmScreen() {
+        func pop(_ path: inout [AppDestination]) {
+            if path.last?.closesThroughKmm == true { path.removeLast() }
+        }
+
+        switch tab {
+            case .home: pop(&homePath)
+            case .model: pop(&modelPath)
+            case .stores: pop(&storesPath)
+            case .profile: pop(&profilePath)
         }
     }
 }
