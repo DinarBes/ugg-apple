@@ -170,6 +170,7 @@ enum FirestoreErrors {
     /// A Firestore (or network, or JSON) error as a `FirestoreException.Reason` name.
     static func bridge(_ error: Error) -> FirestoreBridgeError {
         let ns = error as NSError
+        print("[UggFirebase] Firestore error \(ns.domain) \(ns.code): \(ns.localizedDescription)")
         let reason: String
         switch ns.domain {
             case domain:

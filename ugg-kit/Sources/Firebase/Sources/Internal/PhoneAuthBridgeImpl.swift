@@ -61,6 +61,8 @@ final class PhoneAuthBridgeImpl: NSObject, PhoneAuthBridge {
     /// A Firebase Auth error as a `PhoneAuthException.Reason` name.
     private static func bridgeError(_ error: Error) -> PhoneAuthBridgeError {
         let ns = error as NSError
+        // Kotlin shows only a short reason; the full Firebase error goes to the Xcode console.
+        print("[UggFirebase] Auth error \(ns.domain) \(ns.code): \(ns.localizedDescription) \(ns.userInfo)")
         var reason = "Unknown"
         if ns.domain == "FIRAuthErrorDomain" {
             // `AuthErrorCode` raw values, stable across SDK versions.
