@@ -18,6 +18,10 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
+        // Before the first view: unregistered fonts silently fall back to the system font.
+        UggFonts.register()
+        UggAppearance.apply()
+
         let di = Container()
         di.registerAppModule()
         di.registerAuthModule()

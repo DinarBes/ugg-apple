@@ -54,7 +54,9 @@ extension Target {
 
                 .product(name: "Swinject", package: "Swinject")
             ],
-            path: "./Sources/Core"
+            path: "./Sources/Core",
+            // Brand fonts (registered at launch by `UggFonts.register()`) and the product photo.
+            resources: [.process("Resources")]
         )
     }
 

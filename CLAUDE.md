@@ -43,6 +43,15 @@ The KMM XCFramework `UggShared.xcframework` is consumed from:
 - **Tab navigation:** `AppTabView` (TabView) + `AppTabViewModel` manage the authenticated app shell. Extend `AppTab` and `AppTabView` when adding real feature modules.
 - **ContentState<T>:** Universal `.loading | .success(T) | .failure(String)` enum in Core — for screens whose whole body is one of three mutually exclusive renderings. A screen that shows a spinner *and* content at once needs two fields, not this enum.
 
+## Design system (UggKitCore)
+
+The SwiftUI twin of `UggTheme` in `ugg-client/client-kit/core/presentation` — same palette, sizes and radii, so iOS and Android look like one brand while staying native (system `NavigationStack`, `TabView`, SF Symbols):
+
+- `Theme/` — `UggColors` (roles, never `UggPalette` in screens), `.uggFont(.body)` with `UggTextStyle` (Cormorant Garamond / Manrope, Dynamic Type), `UggSpacing`, `UggRadius` (use `.continuous` corners), `UggIcon` (SF Symbols), `UggAppearance` (nav/tab bars).
+- `Components/` — `UggButton` / `UggButtonStyle`, `UggTextField`, `UggIconButton`, `UggChip`, `UggPhotoPlaceholder`, `UggProductImage`.
+- `Resources/` — fonts (registered by `UggFonts.register()` in `AppDelegate`) and `UggMedia.xcassets` (`uggs`, `app_icon`).
+- `UggDesignSystemPreview.swift` — every token and component on one Canvas preview.
+
 ## Skills
 
 - **`clean-domain-layer`** / **`clean-data-layer`** / **`clean-presentation-layer`** — the layer rules: what belongs in `Domain/`, `Data/` and `Presentation/` of a feature package, and what belongs in the KMM repo instead. Load the one you are writing.

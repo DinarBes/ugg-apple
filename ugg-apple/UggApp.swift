@@ -17,6 +17,7 @@ struct UggApp: App {
         WindowGroup {
             ContentView()
                 .dependencyInjection(appDelegate.di)
+                .tint(UggColors.content)
         }
     }
 }
