@@ -12,6 +12,7 @@ import UggKitSplash
 import UggKitOnboarding
 import UggKitHome
 import UggKitProduct
+import UggKitCart
 import UggKitNavigation
 
 final class AppDelegate: NSObject, UIApplicationDelegate {
@@ -32,6 +33,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         di.registerOnboardingModule()
         di.registerHomeModule()
         di.registerProductModule()
+        di.registerCartModule()
         di.registerNavigationModule()
 
         self.di = di

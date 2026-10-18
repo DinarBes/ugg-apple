@@ -15,6 +15,8 @@ final class NavigationGraphViewModel: ObservableObject {
     /// The splash is the first destination; KMM's `SplashViewModel` decides what replaces it and
     /// navigates there — nothing is resolved here.
     @Published var root: RootDestination = .splash
+    /// Shown over `launch` only.
+    @Published var sheet: RootSheet?
 
     private let navigationContext: NavigationContext
     private var cancellable: Set<AnyCancellable> = []
@@ -37,6 +39,7 @@ final class NavigationGraphViewModel: ObservableObject {
                 navigate(event: event)
             case .onBack:
                 // The name step closes with a KMM `back()`; underneath it is the app.
+                if sheet == .registration { sheet = nil }
                 if root == .registration { root = .launch }
         }
     }
@@ -54,6 +57,26 @@ final class NavigationGraphViewModel: ObservableObject {
     private func navigate(event: NavigationEvent.OnNavigate) {
         guard let flow = event.route as? SplashFlow else { return }
 
-        root = RootDestination(from: flow)
+        let destination = RootDestination(from: flow)
+
+        // Inside the app the sign-in steps are a sheet over the tabs.
+        if root == .launch {
+            switch destination {
+                case .auth:
+                    sheet = .auth
+                    return
+                case .registration:
+                    sheet = .registration
+                    return
+                case .launch:
+                    sheet = nil
+                    return
+                case .splash, .onboarding:
+                    break
+            }
+        }
+
+        sheet = nil
+        root = destination
     }
 }

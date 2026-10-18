@@ -22,6 +22,19 @@ public struct NavigationGraphScreen: View {
     public init() { }
 
     public var body: some View {
+        rootView
+            .sheet(item: $navigationGraphVM.sheet) { sheet in
+                switch sheet {
+                    case .auth:
+                        AuthNavigationStack(onClose: { navigationGraphVM.openApp() })
+                    case .registration:
+                        RegistrationScreen().interactiveDismissDisabled()
+                }
+            }
+    }
+
+    @ViewBuilder
+    private var rootView: some View {
         switch navigationGraphVM.root {
             case .splash:
                 SplashScreen(error: splashVM.error, onRetry: splashVM.onRetry)

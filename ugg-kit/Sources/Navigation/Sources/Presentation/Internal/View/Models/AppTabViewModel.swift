@@ -36,6 +36,22 @@ final class AppTabViewModel: ObservableObject {
         self.tab = tab
     }
 
+    /// Back to the root of the tab on screen, then another tab — «Выбрать пару», «Мои заказы».
+    func popAndSelect(_ tab: AppTab) {
+        switch self.tab {
+            case .home: homePath.removeAll()
+            case .model: modelPath.removeAll()
+            case .stores: storesPath.removeAll()
+            case .profile: profilePath.removeAll()
+        }
+        self.tab = tab
+    }
+
+    /// The sign-in as a sheet over the tabs (see `NavigationGraphViewModel`); the cart stays.
+    func signIn() {
+        navigationContext.tryNavigate(route: SplashFlow.Auth.shared, block: { _ in })
+    }
+
     /// Pushes onto the stack of the tab on screen.
     func open(_ destination: AppDestination) {
         switch tab {

@@ -8,6 +8,7 @@ import SwiftUI
 import UggKitCore
 import UggKitHome
 import UggKitProduct
+import UggKitCart
 
 /// The app shell: the system tab bar, a `NavigationStack` per tab.
 struct AppTabView: View {
@@ -23,25 +24,25 @@ struct AppTabView: View {
                     onOpenCare: { appTabVM.open(.care) },
                     onOpenCart: { appTabVM.open(.cart) }
                 )
-                .appDestinations()
+                .appDestinations(appTabVM)
             }
             .tag(AppTab.home)
             .tabItem { Label("Главная", systemImage: UggIcon.home.rawValue) }
 
             NavigationStack(path: $appTabVM.modelPath) {
-                ProductScreen(onAddToCart: { appTabVM.open(.cart) }).appDestinations()
+                ProductScreen(onAddToCart: { appTabVM.open(.cart) }).appDestinations(appTabVM)
             }
             .tag(AppTab.model)
             .tabItem { Label("Модель", systemImage: UggIcon.boot.rawValue) }
 
             NavigationStack(path: $appTabVM.storesPath) {
-                ComingSoonView(title: "Наши точки").appDestinations()
+                ComingSoonView(title: "Наши точки").appDestinations(appTabVM)
             }
             .tag(AppTab.stores)
             .tabItem { Label("Точки", systemImage: UggIcon.pin.rawValue) }
 
             NavigationStack(path: $appTabVM.profilePath) {
-                ComingSoonView(title: "Профиль").appDestinations()
+                ComingSoonView(title: "Профиль").appDestinations(appTabVM)
             }
             .tag(AppTab.profile)
             .tabItem { Label("Профиль", systemImage: UggIcon.user.rawValue) }
@@ -50,12 +51,17 @@ struct AppTabView: View {
 }
 
 private extension View {
-    func appDestinations() -> some View {
+    func appDestinations(_ appTabVM: AppTabViewModel) -> some View {
         navigationDestination(for: AppDestination.self) { destination in
             switch destination {
                 case .story: ComingSoonView(title: "История")
                 case .care: ComingSoonView(title: "Уход за уггами")
-                case .cart: ComingSoonView(title: "Корзина")
+                case .cart:
+                    CartScreen(
+                        onChooseModel: { appTabVM.popAndSelect(.model) },
+                        onSignIn: { appTabVM.signIn() },
+                        onOpenOrders: { appTabVM.popAndSelect(.profile) }
+                    )
             }
         }
     }
