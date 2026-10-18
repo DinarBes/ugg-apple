@@ -15,21 +15,37 @@ public enum UggAppearance {
         let content = UIColor(UggColors.content)
         let background = UIColor(UggColors.background)
 
-        let navigation = UINavigationBarAppearance()
-        navigation.configureWithOpaqueBackground()
-        navigation.backgroundColor = background
-        navigation.shadowColor = .clear
-        navigation.titleTextAttributes = [
-            .font: UggTextStyle.heading.uiFont,
-            .foregroundColor: content,
-        ]
-        navigation.largeTitleTextAttributes = [
-            .font: UggTextStyle.displayL.uiFont,
-            .foregroundColor: content,
-        ]
-        UINavigationBar.appearance().standardAppearance = navigation
-        UINavigationBar.appearance().scrollEdgeAppearance = navigation
-        UINavigationBar.appearance().compactAppearance = navigation
+        let titles: (UINavigationBarAppearance) -> Void = { appearance in
+            appearance.titleTextAttributes = [
+                .font: UggTextStyle.heading.uiFont,
+                .foregroundColor: content,
+            ]
+            appearance.largeTitleTextAttributes = [
+                .font: UggTextStyle.displayL.uiFont,
+                .foregroundColor: content,
+            ]
+        }
+
+        // At the top of a screen the bar is see-through over our background, so the large title
+        // shows. An opaque scroll-edge background covers the large title on iOS 26.
+        let scrollEdge = UINavigationBarAppearance()
+        scrollEdge.configureWithTransparentBackground()
+        titles(scrollEdge)
+
+        // Scrolled: the system material on iOS 26 (Liquid Glass), our background before it.
+        let standard = UINavigationBarAppearance()
+        if #available(iOS 26.0, *) {
+            standard.configureWithDefaultBackground()
+        } else {
+            standard.configureWithOpaqueBackground()
+            standard.backgroundColor = background
+            standard.shadowColor = .clear
+        }
+        titles(standard)
+
+        UINavigationBar.appearance().standardAppearance = standard
+        UINavigationBar.appearance().compactAppearance = standard
+        UINavigationBar.appearance().scrollEdgeAppearance = scrollEdge
         UINavigationBar.appearance().tintColor = content
 
         let tab = UITabBarAppearance()
