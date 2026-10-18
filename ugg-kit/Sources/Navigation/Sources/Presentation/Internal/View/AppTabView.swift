@@ -9,6 +9,7 @@ import UggKitCore
 import UggKitHome
 import UggKitProduct
 import UggKitCart
+import UggKitStores
 
 /// The app shell: the system tab bar, a `NavigationStack` per tab.
 struct AppTabView: View {
@@ -36,7 +37,7 @@ struct AppTabView: View {
             .tabItem { Label("Модель", systemImage: UggIcon.boot.rawValue) }
 
             NavigationStack(path: $appTabVM.storesPath) {
-                ComingSoonView(title: "Наши точки").appDestinations(appTabVM)
+                StoresScreen().appDestinations(appTabVM)
             }
             .tag(AppTab.stores)
             .tabItem { Label("Точки", systemImage: UggIcon.pin.rawValue) }
