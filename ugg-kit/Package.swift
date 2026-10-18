@@ -1,0 +1,101 @@
+// swift-tools-version: 6.2
+// The swift-tools-version declares the minimum version of Swift required to build this package.
+
+import PackageDescription
+
+let package = Package(
+    name: "ugg-kit",
+    platforms: [
+        .iOS("16.4")
+    ],
+    products: [
+        // Products define the executables and libraries a package produces, making them visible to other packages.
+        .library(
+            name: "UggKit",
+            targets: [
+                "UggKitCore",
+                "UggKitAuth",
+                "UggKitSplash",
+                "UggKitNavigation",
+            ]
+        ),
+    ],
+    dependencies: [
+        .swinject(),
+    ],
+    targets: [
+        .core(),
+        .auth(),
+        .splash(),
+        .navigation(),
+        .uggKitDebugShared()
+    ]
+)
+
+extension Package.Dependency {
+    static func swinject() -> Package.Dependency {
+        .package(url: "https://github.com/Swinject/Swinject.git", from: "2.8.0")
+    }
+}
+
+extension Target {
+    static func uggKitDebugShared() -> Target {
+        .binaryTarget(
+            name: "UggShared",
+            path: "../../../multiplatform/ugg-client/shared/build/XCFrameworks/debug/UggShared.xcframework"
+        )
+    }
+
+    static func core() -> Target {
+        .target(
+            name: "UggKitCore",
+            dependencies: [
+                "UggShared",
+
+                .product(name: "Swinject", package: "Swinject")
+            ],
+            path: "./Sources/Core"
+        )
+    }
+
+    static func auth() -> Target {
+        .target(
+            name: "UggKitAuth",
+            dependencies: [
+                "UggShared",
+                "UggKitCore",
+
+                .product(name: "Swinject", package: "Swinject")
+            ],
+            path: "./Sources/Auth"
+        )
+    }
+
+    static func splash() -> Target {
+        .target(
+            name: "UggKitSplash",
+            dependencies: [
+                "UggShared",
+                "UggKitCore",
+
+                .product(name: "Swinject", package: "Swinject")
+            ],
+            path: "./Sources/Splash"
+        )
+    }
+
+    static func navigation() -> Target {
+        .target(
+            name: "UggKitNavigation",
+            dependencies: [
+                "UggShared",
+                "UggKitCore",
+                "UggKitAuth",
+                "UggKitSplash",
+
+                .product(name: "Swinject", package: "Swinject")
+            ],
+            path: "./Sources/Navigation"
+        )
+    }
+}
