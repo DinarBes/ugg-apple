@@ -7,6 +7,7 @@ import UIKit
 import Swinject
 
 import UggKitCore
+import UggKitFirebase
 import UggKitAuth
 import UggKitSplash
 import UggKitOnboarding
@@ -29,6 +30,8 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         // Before the first view: unregistered fonts silently fall back to the system font.
         UggFonts.register()
         UggAppearance.apply()
+        // Before the container builds TemplateApp: Kotlin picks up Firestore and the sign-in here.
+        UggFirebase.configure()
 
         let di = Container()
         di.registerAppModule()

@@ -14,6 +14,7 @@ let package = Package(
             name: "UggKit",
             targets: [
                 "UggKitCore",
+                "UggKitFirebase",
                 "UggKitAuth",
                 "UggKitSplash",
                 "UggKitOnboarding",
@@ -30,9 +31,11 @@ let package = Package(
     ],
     dependencies: [
         .swinject(),
+        .firebase(),
     ],
     targets: [
         .core(),
+        .firebase(),
         .auth(),
         .splash(),
         .onboarding(),
@@ -51,6 +54,10 @@ let package = Package(
 extension Package.Dependency {
     static func swinject() -> Package.Dependency {
         .package(url: "https://github.com/Swinject/Swinject.git", from: "2.8.0")
+    }
+
+    static func firebase() -> Package.Dependency {
+        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "12.0.0")
     }
 }
 
@@ -206,12 +213,30 @@ extension Target {
         )
     }
 
+    /// The Firebase iOS SDK, handed to Kotlin through its bridges (Firestore, phone sign-in).
+    static func firebase() -> Target {
+        .target(
+            name: "UggKitFirebase",
+            dependencies: [
+                "UggShared",
+
+                .product(name: "FirebaseCore", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
+            ],
+            path: "./Sources/Firebase",
+            // The SDK's callbacks are not annotated for Swift 6 strict concurrency yet.
+            swiftSettings: [.swiftLanguageMode(.v5)]
+        )
+    }
+
     static func navigation() -> Target {
         .target(
             name: "UggKitNavigation",
             dependencies: [
                 "UggShared",
                 "UggKitCore",
+                "UggKitFirebase",
                 "UggKitAuth",
                 "UggKitSplash",
                 "UggKitOnboarding",

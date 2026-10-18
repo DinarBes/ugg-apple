@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Merged with the keys Xcode generates (GENERATE_INFOPLIST_FILE). -->
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<!-- Firebase phone sign-in: the reCAPTCHA page returns to the app through the encoded
+			     GOOGLE_APP_ID of GoogleService-Info.plist. -->
+			<key>CFBundleURLName</key>
+			<string>firebase-auth</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>app-1-853548872037-ios-431b57b02c2c13ce0b718c</string>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>
