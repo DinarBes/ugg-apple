@@ -50,4 +50,27 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
         self.di = di
         return true
     }
+
+    // MARK: - Firebase phone sign-in
+    //
+    // Forwarded by hand: under SwiftUI's delegate adaptor Firebase cannot hook these itself
+    // (FirebaseAppDelegateProxyEnabled is off in Info.plist).
+
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        UggFirebase.setAPNSToken(deviceToken)
+    }
+
+    func application(
+        _ application: UIApplication,
+        didReceiveRemoteNotification userInfo: [AnyHashable: Any],
+        fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void
+    ) {
+        // The app has no pushes of its own yet: whatever Firebase does not take is ignored.
+        UggFirebase.handleNotification(userInfo)
+        completionHandler(.noData)
+    }
+
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        UggFirebase.handle(url)
+    }
 }

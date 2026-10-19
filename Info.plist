@@ -3,6 +3,9 @@
 <plist version="1.0">
 <dict>
 	<!-- Merged with the keys Xcode generates (GENERATE_INFOPLIST_FILE). -->
+	<!-- AppDelegate forwards the APNs token, notifications and URLs to Firebase itself. -->
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
