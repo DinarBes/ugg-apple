@@ -65,3 +65,8 @@ playground.xcworkspace
 *.cer
 *.mobileprovision
 AuthKey_*.p8
+
+# Local AI tooling
+CLAUDE.md
+.claude/
+docs/superpowers/

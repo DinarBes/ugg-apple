@@ -1,11 +1,10 @@
-# UGG Store — iOS-клиент на SwiftUI
+# Байкал — iOS-клиент на SwiftUI
 
-Нативный iOS-клиент интернет-магазина обуви. UI написан на SwiftUI, а бизнес-логика и ViewModel'и
+Нативный iOS-клиент «Байкала» — приложения мастерской, которая шьёт угги ручной работы. UI написан на SwiftUI, а бизнес-логика и ViewModel'и
 общие с Android и Web: они приходят из Kotlin Multiplatform-модуля [ugg-client](https://github.com/DinarBes/ugg-client)
 в виде XCFramework `UggShared`. Pet-проект.
 
-<!-- Скриншоты: положите картинки в docs/screenshots/ и раскомментируйте строку ниже -->
-<!-- <img src="docs/screenshots/home.png" width="220"> <img src="docs/screenshots/product.png" width="220"> <img src="docs/screenshots/cart.png" width="220"> -->
+Скриншоты и описание функций — в README [ugg-client](https://github.com/DinarBes/ugg-client).
 
 ## Как устроена связка Kotlin ↔ Swift
 
