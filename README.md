@@ -4,7 +4,9 @@
 общие с Android и Web: они приходят из Kotlin Multiplatform-модуля [ugg-client](https://github.com/DinarBes/ugg-client)
 в виде XCFramework `UggShared`. Pet-проект.
 
-Скриншоты и описание функций — в README [ugg-client](https://github.com/DinarBes/ugg-client).
+<img src="docs/screenshots/home.png" width="200"> <img src="docs/screenshots/product.png" width="200"> <img src="docs/screenshots/stores.png" width="200"> <img src="docs/screenshots/profile.png" width="200">
+
+На iOS тот же функционал, что и на Android, но UI нативный: системный таб-бар, карта на MapKit, SF Symbols. Описание функций — в README [ugg-client](https://github.com/DinarBes/ugg-client).
 
 ## Как устроена связка Kotlin ↔ Swift
 
